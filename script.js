@@ -4,7 +4,7 @@ let score = 0;
 
 async function loadCards() {
     try {
-        const response = await fetch('https://api.jsonbin.io/b/your-json-bin-id');
+        const response = await fetch('cards.json');
         const cardsData = await response.json();
         allCards = cardsData.map(card => card.name.toLowerCase()); // Normalize to lower case for comparison
         console.log("All cards loaded:", allCards);
