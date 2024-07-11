@@ -1,12 +1,12 @@
-let allCards = [];
-let namedCards = [];
-let score = 0;
+let allCards = []; // Array to store all card names
 
 async function loadCards() {
     try {
-        const response = await fetch(cards.json);
+        const response = await fetch('cards.json');
         const cardsData = await response.json();
-        allCards = cardsData.map(card => card.name.toLowerCase()); // Normalize to lower case for comparison
+        
+        allCards = cardsData.map(card => card.name.toLowerCase()); // Store card names in lower case
+        
         console.log("All cards loaded:", allCards);
     } catch (error) {
         console.error("Failed to load cards:", error);
@@ -15,19 +15,24 @@ async function loadCards() {
 
 function submitCard() {
     const cardInput = document.getElementById('cardInput');
-    const cardName = cardInput.value.trim().toLowerCase(); // Normalize to lower case for comparison
-
-    if (cardName && !namedCards.includes(cardName) && allCards.includes(cardName)) {
-        namedCards.push(cardName);
-        score++;
-        updateScore();
-        updateNamedCards();
+    const cardName = cardInput.value.trim().toLowerCase(); // Normalize input
+    
+    if (cardName && allCards.includes(cardName)) {
+        // Check if cardName is in allCards array
+        if (!namedCards.includes(cardName)) {
+            namedCards.push(cardName); // Add to namedCards array
+            score++; // Increment score
+            updateScore(); // Update score display
+            updateNamedCards(); // Update named cards list
+        } else {
+            alert("Card name is already named.");
+        }
     } else {
-        alert("Card name is invalid or already named.");
+        alert("Card name is invalid.");
     }
-
-    cardInput.value = '';
-    cardInput.focus();
+    
+    cardInput.value = ''; // Clear input field
+    cardInput.focus(); // Focus on input field for next entry
 }
 
 function updateScore() {
