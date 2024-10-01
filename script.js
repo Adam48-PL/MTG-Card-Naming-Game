@@ -3,15 +3,20 @@ let allCards = []; // Array to store all card names
 async function loadCards() {
     try {
         const response = await fetch('names.json');
-        const cardsData = await response.json();
         
-        allCards = cardsData.map(card => card.name.toLowerCase()); // Store card names in lower case
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const cardsData = await response.json();
+        allCards = cardsData.map(card => card.name.toLowerCase().trim()); // Normalize names (lowercase and trimmed)
         
         console.log("All cards loaded:", allCards);
     } catch (error) {
         console.error("Failed to load cards:", error);
     }
 }
+
 
 function submitCard() {
     const cardInput = document.getElementById('cardInput');
