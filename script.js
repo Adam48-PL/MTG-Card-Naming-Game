@@ -1,14 +1,12 @@
 let allCards = []; // Array to store all card names
+let namedCards = []; // Array to store the named cards
+let score = 0; // Initialize score
 
 async function loadCards() {
     try {
         const response = await fetch('names.json');
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
         const cardsData = await response.json();
+        
         allCards = cardsData.map(card => card.name.toLowerCase().trim()); // Normalize names (lowercase and trimmed)
         
         console.log("All cards loaded:", allCards);
@@ -16,7 +14,6 @@ async function loadCards() {
         console.error("Failed to load cards:", error);
     }
 }
-
 
 function submitCard() {
     const cardInput = document.getElementById('cardInput');
