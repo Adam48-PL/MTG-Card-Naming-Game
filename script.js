@@ -1,5 +1,5 @@
 let allCards = []; // Array to store all card names
-let namedCards = []; // Array to store the named cards
+let namedCards = []; // This should be an array
 let score = 0; // Initialize score
 
 async function loadCards() {
@@ -14,28 +14,35 @@ async function loadCards() {
         console.error("Failed to load cards:", error);
     }
 }
-
 function submitCard() {
     const cardInput = document.getElementById('cardInput');
     const cardName = cardInput.value.trim().toLowerCase(); // Normalize input
-    
-    if (cardName && allCards.includes(cardName)) {
-        // Check if cardName is in allCards array
-        if (!namedCards.includes(cardName)) {
-            namedCards.push(cardName); // Add to namedCards array
-            score++; // Increment score
-            updateScore(); // Update score display
-            updateNamedCards(); // Update named cards list
+
+    console.log("namedCards:", namedCards); // Debugging
+    console.log("Type of namedCards:", typeof namedCards); // Check type of namedCards
+
+    if (Array.isArray(namedCards)) { // Ensure it's an array
+        if (cardName && allCards.includes(cardName)) {
+            // Check if cardName is in allCards array
+            if (!namedCards.includes(cardName)) {
+                namedCards.push(cardName); // Add to namedCards array
+                score++; // Increment score
+                updateScore(); // Update score display
+                updateNamedCards(); // Update named cards list
+            } else {
+                alert("Card name is already named.");
+            }
         } else {
-            alert("Card name is already named.");
+            alert("Card name is invalid.");
         }
     } else {
-        alert("Card name is invalid.");
+        console.error("Error: namedCards is not an array.");
     }
-    
+
     cardInput.value = ''; // Clear input field
     cardInput.focus(); // Focus on input field for next entry
 }
+
 
 function updateScore() {
     document.getElementById('score').textContent = `Score: ${score}`;
