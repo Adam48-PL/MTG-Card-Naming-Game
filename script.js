@@ -59,6 +59,17 @@
         });
     }
 
-    window.onload = loadCards;
+    // Add event listener for the "Enter" key
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') { // Check if the pressed key is "Enter"
+            submitCard();
+        }
+    }
+
+    window.onload = function() {
+        loadCards();
+        document.getElementById('cardInput').addEventListener('keydown', handleKeyDown); // Attach keydown listener to input
+    };
+
     window.submitCard = submitCard; // Expose submitCard globally
 })();
