@@ -20,25 +20,18 @@
         const cardInput = document.getElementById('cardInput');
         const cardName = cardInput.value.trim().toLowerCase(); // Normalize input
 
-        console.log("namedCards:", namedCards);
-        console.log("Type of namedCards:", typeof namedCards); // Debugging
-
-        if (Array.isArray(namedCards)) {
-            if (cardName && allCards.includes(cardName)) {
-                // Check if cardName is in allCards array
-                if (!namedCards.includes(cardName)) {
-                    namedCards.push(cardName); // Add to namedCards array
-                    score++; // Increment score
-                    updateScore(); // Update score display
-                    updateNamedCards(); // Update named cards list
-                } else {
-                    alert("Card name is already named.");
-                }
+        if (cardName && allCards.includes(cardName)) {
+            // Check if cardName is in allCards array
+            if (!namedCards.includes(cardName)) {
+                namedCards.push(cardName); // Add to namedCards array
+                score++; // Increment score
+                updateScore(); // Update score display
+                updateNamedCards(); // Update named cards list
             } else {
-                alert("Card name is invalid.");
+                alert("Card name is already named.");
             }
         } else {
-            console.error("Error: namedCards is not an array.");
+            alert("Card name is invalid.");
         }
 
         cardInput.value = ''; // Clear input field
@@ -59,16 +52,18 @@
         });
     }
 
-    // Add event listener for the "Enter" key
+    // Event listener for the "Enter" key
     function handleKeyDown(event) {
         if (event.key === 'Enter') { // Check if the pressed key is "Enter"
-            submitCard();
+            event.preventDefault();   // Prevent the default form submission or page reload
+            submitCard();             // Call the submitCard function
         }
     }
 
     window.onload = function() {
         loadCards();
-        document.getElementById('cardInput').addEventListener('keydown', handleKeyDown); // Attach keydown listener to input
+        const cardInput = document.getElementById('cardInput');
+        cardInput.addEventListener('keydown', handleKeyDown); // Attach keydown listener to input
     };
 
     window.submitCard = submitCard; // Expose submitCard globally
